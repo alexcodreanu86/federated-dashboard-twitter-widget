@@ -1,11 +1,13 @@
 {
   "name": "federated-dashboard-twitter-widget",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "ignore": [
     ".tmp",
     "spec",
     "Gruntfile.js",
-    "testem.json"
+    "testem.json",
+    "./views",
+    "./server.js"
   ],
   "dependencies": {
     "underscore": "~1.6.0",
