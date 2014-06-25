@@ -25,3 +25,10 @@ describe "Twitter.Display", ->
     expect($('[data-id=twitter-output]')).toContainText("Some Text")
     expect($('[data-id=twitter-output]')).toContainText("Other text")
     expect($('[data-id=twitter-output]')).toContainText("Third text")
+
+  it "generateLogo returns the twitter image tag", ->
+    setFixtures(sandbox())
+    imageHtml = Twitter.Display.generateLogo()
+    $('#sandbox').html(imageHtml)
+    expect($('#sandbox')).toContainElement('[data-id=twitter-logo]')
+

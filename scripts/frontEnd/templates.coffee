@@ -14,3 +14,6 @@ class Twitter.Templates
                 <p><%= i + 1 %> <%= tweets[i]["text"] %></p>
                 <% } %>
               """, {tweets: tweets})
+
+  @renderImage: (imgSrc, dataId) ->
+    _.template( "<img src='<%= imgSrc%>' data-id='<%= dataId %>'/>", {imgSrc: imgSrc, dataId: dataId})

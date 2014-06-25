@@ -21,12 +21,19 @@
       setInputValue("bikes");
       return expect(Twitter.Display.getInput()).toEqual("bikes");
     });
-    return it("displayTweets is displaying the tweets", function() {
+    it("displayTweets is displaying the tweets", function() {
       setFixtures('<div data-id="twitter-output"></div>');
       Twitter.Display.showTweets(twitterResponse);
       expect($('[data-id=twitter-output]')).toContainText("Some Text");
       expect($('[data-id=twitter-output]')).toContainText("Other text");
       return expect($('[data-id=twitter-output]')).toContainText("Third text");
+    });
+    return it("generateLogo returns the twitter image tag", function() {
+      var imageHtml;
+      setFixtures(sandbox());
+      imageHtml = Twitter.Display.generateLogo();
+      $('#sandbox').html(imageHtml);
+      return expect($('#sandbox')).toContainElement('img[data-id=twitter-logo]');
     });
   });
 
