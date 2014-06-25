@@ -15,6 +15,7 @@ class Twitter.Display
     formHtml = Twitter.Templates.renderForm()
     $(container).html(formHtml)
 
+  @logoSrc = "https://d30y9cdsu7xlg0.cloudfront.net/svg/397015b2-35ac-4e35-bbb6-639160056826.svg?Expires=1403714482&amp;Signature=NIKuItmkE8UN70LX6fvBMfF9rM~TOT6FtON2fgEVZO73jmtVqaMy6uekkcqCT~Kh9NU~rEH~Txaunw3RGiobW5F~i~GKokNNRD0jN5XyTxrTtShwhmi7iStGeAf2kkirZ4ZYkYi52nwHsi26N36PWwxmwPrU9-YyG8-Ud3jcZes_&amp;Key-Pair-Id=APKAI5ZVHAXN65CHVU2Q"
+
   @generateLogo: ->
-    logoSrc = "https://d30y9cdsu7xlg0.cloudfront.net/svg/f7bab68f-2ac2-493e-95f9-3e73356dc…I9OMEUaVZnI2ATZDqWv2Q~Wszhd5bqmIf8Us_&amp;Key-Pair-Id=APKAI5ZVHAXN65CHVU2Q"
-    Twitter.Templates.renderImage(logoSrc, "twitter-logo")
+    Twitter.Templates.renderImage(@logoSrc, "twitter-logo")

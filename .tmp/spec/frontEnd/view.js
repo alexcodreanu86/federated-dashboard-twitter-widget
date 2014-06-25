@@ -30,10 +30,8 @@
     });
     return it("generateLogo returns the twitter image tag", function() {
       var imageHtml;
-      setFixtures(sandbox());
       imageHtml = Twitter.Display.generateLogo();
-      $('#sandbox').html(imageHtml);
-      return expect($('#sandbox')).toContainElement('img[data-id=twitter-logo]');
+      return expect(imageHtml).toBeMatchedBy('[data-id=twitter-logo]');
     });
   });
 
