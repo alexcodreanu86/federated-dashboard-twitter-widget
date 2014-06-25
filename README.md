@@ -3,7 +3,7 @@
 To install this package you can either run `bower install twitter-widget` or include it in your bower.json dependencies section.
 
 For a preview of how it works you can copy the contents of the `twitter-widget/example` directory into the root of your project. After that you can run the command `npm install` to have all the dependencies installed.
-Next you will have to set your twitter keys as your environment by executing the following commands replacing the "xxxxx" parts with your api keys from [twitter](https://dev.twitter.com):
+Next you will have to set your twitter api keys into your environment by executing the following commands replacing the "xxxxx" parts with your api keys from [twitter](https://dev.twitter.com):
 ```
 export TWITTER_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxx
 export TWITTER_API_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
