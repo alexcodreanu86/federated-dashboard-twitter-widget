@@ -14,6 +14,8 @@ export TWITTER_ACCESS_TOKEN_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 If your bower components are not installed in the bower_components directory then you will have to update the routes in the views/index.ejs and in the server.js to point to the location where your bower components are saved.
 Now you should be ready to try the server by executing `node server.js` in the same shell tab where you have set the environment variables.
 
+##How to use it in your project
+
 Twitter image logo html can be generated with the command:
 `Twitter.Display.generateLogo({dataId: "twitter-logo", width: 100})`. This will generate the following html:
 
