@@ -12,7 +12,7 @@
     <div data-id="widget-display"></div>
     <script>
       Twitter.Controller.setupWidgetIn('[data-id=widget-display]') 
-      $('[data-id=widget-display]').prepend(Twitter.Display.generateLogo())
+      $('[data-id=widget-display]').prepend(Twitter.Display.generateLogo({width: 50, dataId: "twitter-logo"}))
     </script>
   </body>
 </html>

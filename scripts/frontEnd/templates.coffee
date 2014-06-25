@@ -15,5 +15,5 @@ class Twitter.Templates
                 <% } %>
               """, {tweets: tweets})
 
-  @renderImage: (imgSrc, dataId) ->
-    _.template( "<img src='<%= imgSrc%>' data-id='<%= dataId %>'/>", {imgSrc: imgSrc, dataId: dataId})
+  @renderImage: (imgData) ->
+    _.template( "<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {imgData: imgData})

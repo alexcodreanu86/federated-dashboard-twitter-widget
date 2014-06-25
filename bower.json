@@ -3,10 +3,8 @@
   "version": "0.0.0",
   "ignore": [
     ".tmp",
-    "node_modules",
     "spec",
     "Gruntfile.js",
-    "package.json",
     "testem.json"
   ],
   "dependencies": {

@@ -14,10 +14,9 @@
       });
     };
 
-    Templates.renderImage = function(imgSrc, dataId) {
-      return _.template("<img src='<%= imgSrc%>' data-id='<%= dataId %>'/>", {
-        imgSrc: imgSrc,
-        dataId: dataId
+    Templates.renderImage = function(imgData) {
+      return _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {
+        imgData: imgData
       });
     };
 

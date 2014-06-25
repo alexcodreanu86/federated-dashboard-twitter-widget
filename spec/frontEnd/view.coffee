@@ -27,6 +27,5 @@ describe "Twitter.Display", ->
     expect($('[data-id=twitter-output]')).toContainText("Third text")
 
   it "generateLogo returns the twitter image tag", ->
-    imageHtml = Twitter.Display.generateLogo()
+    imageHtml = Twitter.Display.generateLogo({dataId: "twitter-logo"})
     expect(imageHtml).toBeMatchedBy('[data-id=twitter-logo]')
-
