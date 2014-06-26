@@ -20,4 +20,4 @@ class Twitter.Display
   @generateLogo: (config) ->
     logoSrc = @logoSrc
     _.extend(config, {imgSrc: logoSrc})
-    Twitter.Templates.renderImage(config)
+    Pictures.Templates.renderLogo(config)
