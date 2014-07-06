@@ -28,12 +28,25 @@
       expect($('[data-id=twitter-output]')).toContainText("Other text");
       return expect($('[data-id=twitter-output]')).toContainText("Third text");
     });
-    return it("generateLogo returns the twitter image tag", function() {
+    it("generateLogo returns the twitter image tag", function() {
       var imageHtml;
       imageHtml = Twitter.Display.generateLogo({
         dataId: "twitter-logo"
       });
       return expect(imageHtml).toBeMatchedBy('[data-id=twitter-logo]');
+    });
+    it("hideForm is hiding the form", function() {
+      setFixtures(sandbox());
+      Twitter.Controller.setupWidgetIn('#sandbox');
+      Twitter.Display.hideForm();
+      return expect($('[data-id=twitter-form]').attr('style')).toEqual('display: none;');
+    });
+    return it("showForm displays the form", function() {
+      setFixtures(sandbox());
+      Twitter.Controller.setupWidgetIn('#sandbox');
+      Twitter.Display.hideForm();
+      Twitter.Display.showForm();
+      return expect($('[data-id=twitter-form]').attr('style')).not.toEqual('display: none;');
     });
   });
 

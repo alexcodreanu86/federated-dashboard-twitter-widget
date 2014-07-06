@@ -20,4 +20,10 @@ class Twitter.Display
   @generateLogo: (config) ->
     logoSrc = @logoSrc
     _.extend(config, {imgSrc: logoSrc})
-    Pictures.Templates.renderLogo(config)
+    Twitter.Templates.renderLogo(config)
+
+  @hideForm: ->
+    $('[data-id=twitter-form]').hide()
+
+  @showForm: ->
+    $('[data-id=twitter-form]').show()

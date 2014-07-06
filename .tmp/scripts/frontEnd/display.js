@@ -32,7 +32,15 @@
       _.extend(config, {
         imgSrc: logoSrc
       });
-      return Twitter.Templates.renderImage(config);
+      return Twitter.Templates.renderLogo(config);
+    };
+
+    Display.hideForm = function() {
+      return $('[data-id=twitter-form]').hide();
+    };
+
+    Display.showForm = function() {
+      return $('[data-id=twitter-form]').show();
     };
 
     return Display;

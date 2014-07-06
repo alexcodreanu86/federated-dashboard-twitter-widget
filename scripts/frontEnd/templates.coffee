@@ -3,9 +3,13 @@ namespace('Twitter')
 class Twitter.Templates
   @renderForm: ->
     _.template("""
-                  <input name="twitter-search" type="text"><br>
-                  <button id="twitter" data-id="twitter-button">Search twitter</button><br>
+                <div data-id="twitter-widget-wrapper">
+                  <div data-id="twitter-form">
+                    <input name="twitter-search" type="text">
+                    <button id="twitter" data-id="twitter-button">Search twitter</button><br>
+                  </div>
                   <div data-id="twitter-output"></div>
+                </div>
                """)
 
   @renderTweets: (tweets) ->
@@ -16,4 +20,7 @@ class Twitter.Templates
               """, {tweets: tweets})
 
   @renderImage: (imgData) ->
+    _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {imgData: imgData})
+
+  @renderLogo: (imgData) ->
     _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {imgData: imgData})

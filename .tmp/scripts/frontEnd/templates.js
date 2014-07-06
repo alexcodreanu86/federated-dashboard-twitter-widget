@@ -5,7 +5,7 @@
     function Templates() {}
 
     Templates.renderForm = function() {
-      return _.template("<input name=\"twitter-search\" type=\"text\"><br>\n<button id=\"twitter\" data-id=\"twitter-button\">Search twitter</button><br>\n<div data-id=\"twitter-output\"></div>");
+      return _.template("<div data-id=\"twitter-widget-wrapper\">\n  <div data-id=\"twitter-form\">\n    <input name=\"twitter-search\" type=\"text\">\n    <button id=\"twitter\" data-id=\"twitter-button\">Search twitter</button><br>\n  </div>\n  <div data-id=\"twitter-output\"></div>\n</div>");
     };
 
     Templates.renderTweets = function(tweets) {
@@ -15,6 +15,12 @@
     };
 
     Templates.renderImage = function(imgData) {
+      return _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {
+        imgData: imgData
+      });
+    };
+
+    Templates.renderLogo = function(imgData) {
       return _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {
         imgData: imgData
       });
