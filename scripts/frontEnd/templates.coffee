@@ -10,6 +10,7 @@ class Twitter.Templates
                       <input name="twitter-search" type="text" autofocus="true">
                       <button id="twitter" data-id="twitter-button">Search twitter</button><br>
                     </div>
+                  </div>
                   <div class="widget-body" data-id="twitter-output"></div>
                 </div>
                """)
