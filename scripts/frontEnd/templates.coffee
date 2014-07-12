@@ -3,12 +3,14 @@ namespace('Twitter')
 class Twitter.Templates
   @renderForm: ->
     _.template("""
-                <div data-id="twitter-widget-wrapper">
-                  <div data-id="twitter-form">
-                    <input name="twitter-search" type="text">
-                    <button id="twitter" data-id="twitter-button">Search twitter</button><br>
-                  </div>
-                  <div data-id="twitter-output"></div>
+                <div class="widget" data-id="twitter-widget-wrapper">
+                  <div class="widget-header">
+                    <h2 class="widget-title">Twitter</h2>
+                    <div class="widget-form" data-id="twitter-form">
+                      <input name="twitter-search" type="text" autofocus="true">
+                      <button id="twitter" data-id="twitter-button">Search twitter</button><br>
+                    </div>
+                  <div class="widget-body" data-id="twitter-output"></div>
                 </div>
                """)
 
