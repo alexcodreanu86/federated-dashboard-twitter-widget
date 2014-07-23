@@ -4,29 +4,56 @@
   Twitter.Controller = (function() {
     function Controller() {}
 
-    Controller.bind = function() {
-      return $('[data-id=twitter-button]').click((function(_this) {
-        return function() {
-          return _this.getTweeterPosts(Twitter.Display.getInput());
-        };
-      })(this));
+    Controller.widgets = [];
+
+    Controller.setupWidgetIn = function(container, apiKey) {
+      var widget;
+      widget = new Twitter.Widgets.Controller(container, apiKey);
+      widget.initialize();
+      return this.addToWidgetsContainer(widget);
     };
 
-    Controller.getTweeterPosts = function(searchInput) {
-      var url;
-      url = this.generateUrl(searchInput);
-      return $.get(url, function(response) {
-        return Twitter.Display.showTweets(response);
-      }, 'json');
+    Controller.addToWidgetsContainer = function(widget) {
+      return this.widgets.push(widget);
     };
 
-    Controller.generateUrl = function(input) {
-      return "/search_twitter/" + input;
+    Controller.getWidgets = function() {
+      return this.widgets;
     };
 
-    Controller.setupWidgetIn = function(element) {
-      Twitter.Display.showFormIn(element);
-      return this.bind();
+    Controller.hideForms = function() {
+      return this.allWidgetsExecute("hideForm");
+    };
+
+    Controller.showForms = function() {
+      return this.allWidgetsExecute("showForm");
+    };
+
+    Controller.allWidgetsExecute = function(command) {
+      return _.each(this.widgets, function(widget) {
+        return widget[command]();
+      });
+    };
+
+    Controller.closeWidgetInContainer = function(container) {
+      var widget;
+      widget = _.filter(this.widgets, function(widget, index) {
+        return widget.container === container;
+      })[0];
+      if (widget) {
+        this.removeWidgetContent(widget);
+        return this.removeFromWidgetsContainer(widget);
+      }
+    };
+
+    Controller.removeFromWidgetsContainer = function(widgetToRemove) {
+      return this.widgets = _.reject(this.widgets, function(widget) {
+        return widget === widgetToRemove;
+      });
+    };
+
+    Controller.removeWidgetContent = function(widget) {
+      return widget.removeContent();
     };
 
     return Controller;

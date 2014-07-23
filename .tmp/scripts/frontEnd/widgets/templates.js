@@ -1,7 +1,7 @@
 (function() {
-  namespace('Twitter');
+  namespace('Twitter.Widgets');
 
-  Twitter.Templates = (function() {
+  Twitter.Widgets.Templates = (function() {
     function Templates() {}
 
     Templates.renderForm = function() {
@@ -21,7 +21,9 @@
     };
 
     Templates.renderLogo = function(imgData) {
-      return this.renderImage(imgData);
+      return _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {
+        imgData: imgData
+      });
     };
 
     return Templates;

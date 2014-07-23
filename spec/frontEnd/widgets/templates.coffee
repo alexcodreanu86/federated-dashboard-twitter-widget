@@ -1,12 +1,3 @@
-setSandbox = ->
-  setFixtures(sandbox())
-
-appendToSandbox = (html) ->
-  $("#sandbox").html(html)
-
-assertSandboxContainsElement = (element) ->
-  expect($('#sandbox')).toContainElement(element)
-
 twitterResponse = [
   {
     "text": "Some Text"
@@ -19,10 +10,19 @@ twitterResponse = [
   }
 ]
 
-describe "Twitter.Templates", ->
+setSandbox = ->
+  setFixtures(sandbox())
+
+appendToSandbox = (html) ->
+  $("#sandbox").html(html)
+
+assertSandboxContainsElement = (element) ->
+  expect($('#sandbox')).toContainElement(element)
+
+describe "Twitter.Widgets.Templates", ->
   it "renderForm returns proper html", ->
     setSandbox()
-    form = Twitter.Templates.renderForm()
+    form = Twitter.Widgets.Templates.renderForm()
     appendToSandbox(form)
     assertSandboxContainsElement('[name=twitter-search]')
     assertSandboxContainsElement('[data-id=twitter-button]')

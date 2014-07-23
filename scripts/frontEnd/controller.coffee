@@ -1,18 +1,42 @@
 namespace('Twitter')
 
 class Twitter.Controller
-  @bind: ->
-    $('[data-id=twitter-button]').click( => @getTweeterPosts(Twitter.Display.getInput()))
+  @widgets: []
 
-  @getTweeterPosts: (searchInput) ->
-    url = @generateUrl(searchInput) 
-    $.get(url, (response) ->
-      Twitter.Display.showTweets(response)
-    , 'json')
+  @setupWidgetIn: (container, apiKey) ->
+    widget = new Twitter.Widgets.Controller(container, apiKey)
+    widget.initialize()
+    @addToWidgetsContainer(widget)
 
-  @generateUrl: (input) ->
-    "/search_twitter/#{input}"
+  @addToWidgetsContainer: (widget) ->
+    @widgets.push(widget)
 
-  @setupWidgetIn: (element) ->
-    Twitter.Display.showFormIn(element)
-    @bind()
+  @getWidgets: ->
+    @widgets
+
+  @hideForms: ->
+    @allWidgetsExecute("hideForm")
+
+  @showForms: ->
+    @allWidgetsExecute("showForm")
+
+  @allWidgetsExecute: (command) ->
+    _.each(@widgets, (widget) ->
+      widget[command]()
+    )
+
+  @closeWidgetInContainer: (container) ->
+    widget = _.filter(@widgets, (widget, index) ->
+      widget.container == container
+    )[0]
+    if widget
+      @removeWidgetContent(widget)
+      @removeFromWidgetsContainer(widget)
+
+  @removeFromWidgetsContainer: (widgetToRemove) ->
+    @widgets = _.reject(@widgets, (widget) ->
+      return widget == widgetToRemove
+    )
+
+  @removeWidgetContent: (widget) ->
+    widget.removeContent()

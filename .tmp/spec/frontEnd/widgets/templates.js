@@ -1,6 +1,16 @@
 (function() {
   var appendToSandbox, assertSandboxContainsElement, setSandbox, twitterResponse;
 
+  twitterResponse = [
+    {
+      "text": "Some Text"
+    }, {
+      "text": "Other text"
+    }, {
+      "text": "Third text"
+    }
+  ];
+
   setSandbox = function() {
     return setFixtures(sandbox());
   };
@@ -13,21 +23,11 @@
     return expect($('#sandbox')).toContainElement(element);
   };
 
-  twitterResponse = [
-    {
-      "text": "Some Text"
-    }, {
-      "text": "Other text"
-    }, {
-      "text": "Third text"
-    }
-  ];
-
-  describe("Twitter.Templates", function() {
+  describe("Twitter.Widgets.Templates", function() {
     return it("renderForm returns proper html", function() {
       var form;
       setSandbox();
-      form = Twitter.Templates.renderForm();
+      form = Twitter.Widgets.Templates.renderForm();
       appendToSandbox(form);
       assertSandboxContainsElement('[name=twitter-search]');
       assertSandboxContainsElement('[data-id=twitter-button]');

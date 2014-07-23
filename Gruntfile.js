@@ -17,7 +17,7 @@ module.exports = function (grunt) {
         expand: true,
         flatten: false,
         cwd: 'spec',
-        src: 'frontEnd/*.coffee',
+        src: 'frontEnd/**/*.coffee',
         dest: '.tmp/spec/',
         ext: '.js'
       }
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
         seperator: ';'
       },
       dist: {
-        src: ['lib/namespace.js', '.tmp/scripts/frontEnd/*.js'],
+        src: ['lib/namespace.js', '.tmp/scripts/frontEnd/**/*.js'],
         dest: 'dist/<%= pkg.name %>.js'
       },
       server: {

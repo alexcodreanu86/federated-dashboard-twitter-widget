@@ -7,8 +7,8 @@
     "lib/sinon.js",
     "bower_components/jquery/dist/jquery.js",
     "bower_components/jasmine-jquery/lib/jasmine-jquery.js",
-    ".tmp/scripts/frontEnd/*.js",
-    ".tmp/spec/frontEnd/*.js"
+    ".tmp/scripts/frontEnd/**/*.js",
+    ".tmp/spec/frontEnd/**/*.js"
   ],
   "launchers":{
     "Node": {

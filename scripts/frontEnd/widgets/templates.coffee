@@ -1,6 +1,6 @@
-namespace('Twitter')
+namespace('Twitter.Widgets')
 
-class Twitter.Templates
+class Twitter.Widgets.Templates
   @renderForm: ->
     _.template("""
                 <div class="widget" data-id="twitter-widget-wrapper">
@@ -26,4 +26,4 @@ class Twitter.Templates
     _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {imgData: imgData})
 
   @renderLogo: (imgData) ->
-    @renderImage(imgData)
+    _.template("<img src='<%= imgData['imgSrc'] %>' data-id='<%= imgData['dataId'] %>' style='width: <%= imgData['width'] %>px'/>", {imgData: imgData})

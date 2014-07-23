@@ -1,17 +1,17 @@
 (function() {
-  var clickButton, getJsonObject, setInputValue, setupFixtures, setupTwitterDisplay, twitterResponse;
+  var clickOn, container1, container2, getJsonObject, resetWidgetsContainer, setSandbox, setupOneContainer, setupTwitterDisplay, setupTwoContainers, twitterResponse;
 
-  setupFixtures = function() {
-    return setFixtures("<input name='twitter-search'>\n<button data-id='twitter-button'></button>\n<div data-id='twitter-output'></div>");
+  setupOneContainer = function() {
+    return setFixtures(" <div data-id='widget-container-1'></div>");
   };
 
-  setInputValue = function(value) {
-    return $('[name=twitter-search]').val(value);
+  setupTwoContainers = function() {
+    return setFixtures("<div data-id='widget-container-1'></div>\n<div data-id='widget-container-2'></div>");
   };
 
-  clickButton = function() {
-    return $('[data-id=twitter-button]').click();
-  };
+  container1 = "[data-id=widget-container-1]";
+
+  container2 = "[data-id=widget-container-2]";
 
   twitterResponse = [
     {
@@ -33,28 +33,89 @@
     return setInputValue('bikes');
   };
 
+  clickOn = function(element) {
+    return $(element).click();
+  };
+
+  resetWidgetsContainer = function() {
+    return Twitter.Controller.widgets = [];
+  };
+
+  setSandbox = function() {
+    return setFixtures(sandbox());
+  };
+
+  setupTwoContainers = function() {
+    return setFixtures("<div data-id='widget-container-1'></div>\n<div data-id='widget-container-2'></div>");
+  };
+
+  container1 = "[data-id=widget-container-1]";
+
+  container2 = "[data-id=widget-container-2]";
+
   describe("Twitter.Controller", function() {
-    it("bind displays tweets with the search input when twitter button is clicked", function() {
-      var server;
-      setupTwitterDisplay();
-      server = sinon.fakeServer.create();
-      server.respondWith(/.+/, getJsonObject());
-      clickButton();
-      server.respond();
-      expect($('[data-id=twitter-output]')).toContainText("Some Text");
-      expect($('[data-id=twitter-output]')).toContainText("Other text");
-      expect($('[data-id=twitter-output]')).toContainText("Third text");
-      return server.restore();
-    });
-    it("generateUrl returns a url with the string included in the string", function() {
-      var url;
-      url = Twitter.Controller.generateUrl('bikes');
-      return expect(url).toEqual('/search_twitter/bikes');
-    });
-    return it("setupWidgetIn displays the twitterForm in the given container", function() {
+    it("setupWidgetIn displays the twitterForm in the given container", function() {
       setFixtures(sandbox());
       Twitter.Controller.setupWidgetIn('#sandbox');
       return expect($('#sandbox')).toContainElement('[name=twitter-search]');
+    });
+    it("widgets container is empty on initialization", function() {
+      var container;
+      resetWidgetsContainer();
+      container = Twitter.Controller.getWidgets();
+      return expect(container.length).toBe(0);
+    });
+    it("setupWidgetIn is setting up a widget instance in the desired element", function() {
+      var html;
+      resetWidgetsContainer();
+      setSandbox();
+      Twitter.Controller.setupWidgetIn('#sandbox', "123456");
+      html = $('#sandbox');
+      expect(html).toContainElement('[name=twitter-search]');
+      expect(html).toContainElement('[data-id=twitter-button]');
+      return expect(html).toContainElement('[data-id=twitter-output]');
+    });
+    it("setupWidgetIn is adding the initialized widget to the widgets container", function() {
+      resetWidgetsContainer();
+      setSandbox();
+      Twitter.Controller.setupWidgetIn('#sandbox', "123456");
+      return expect(Twitter.Controller.getWidgets().length).toEqual(1);
+    });
+    it("hideForms is hiding the forms of all the widgets that are initialized", function() {
+      resetWidgetsContainer();
+      setupTwoContainers();
+      Twitter.Controller.setupWidgetIn(container1, "123456");
+      Twitter.Controller.setupWidgetIn(container2, "123456");
+      Twitter.Controller.hideForms();
+      expect($("" + container1 + " [data-id=twitter-form]").attr('style')).toEqual('display: none;');
+      return expect($("" + container2 + " [data-id=twitter-form]").attr('style')).toEqual('display: none;');
+    });
+    it("showForms is showing the forms of all the widgets that are initialized", function() {
+      resetWidgetsContainer();
+      setupTwoContainers();
+      Twitter.Controller.setupWidgetIn(container1, "123456");
+      Twitter.Controller.setupWidgetIn(container2, "123456");
+      Twitter.Controller.hideForms();
+      Twitter.Controller.showForms();
+      expect($("" + container1 + " [data-id=twitter-form]").attr('style')).not.toEqual('display: none;');
+      return expect($("" + container2 + " [data-id=twitter-form]").attr('style')).not.toEqual('display: none;');
+    });
+    it("closeWidgetInContainer will eliminate the widget from the given container", function() {
+      resetWidgetsContainer();
+      setupTwoContainers();
+      Twitter.Controller.setupWidgetIn(container1, "123456");
+      Twitter.Controller.setupWidgetIn(container2, "123456");
+      Twitter.Controller.closeWidgetInContainer(container1);
+      expect($("" + container1 + " [data-id=twitter-form]")).not.toBeInDOM();
+      return expect($("" + container2 + " [data-id=twitter-form]")).toBeInDOM();
+    });
+    return it("closeWidgetInContainer will remove the widget from the widgets container", function() {
+      resetWidgetsContainer();
+      setupTwoContainers();
+      Twitter.Controller.setupWidgetIn(container1, "123456");
+      Twitter.Controller.setupWidgetIn(container2, "123456");
+      Twitter.Controller.closeWidgetInContainer(container1);
+      return expect(Twitter.Controller.getWidgets().length).toEqual(1);
     });
   });
 

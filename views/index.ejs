@@ -8,11 +8,12 @@
   </head>
 
   <body>
-    <div data-id="widget-display"></div>
+    <div data-id="widget-display-1"></div>
+    <div data-id="widget-display-2"></div>
     <script>
-      Twitter.Controller.setupWidgetIn('[data-id=widget-display]') 
+      Twitter.Controller.setupWidgetIn('[data-id=widget-display-1]')
+      Twitter.Controller.setupWidgetIn('[data-id=widget-display-2]')
       logoHtml = Twitter.Display.generateLogo({width: 100, dataId: "twitter-logo"})
-      console.log(logoHtml)
       $('[data-id=widget-display]').prepend(logoHtml)
     </script>
   </body>
