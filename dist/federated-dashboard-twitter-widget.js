@@ -252,11 +252,11 @@
     };
 
     Controller.prototype.hideForm = function() {
-      return this.display.hideForm();
+      return this.display.exitEditMode();
     };
 
     Controller.prototype.showForm = function() {
-      return this.display.showForm();
+      return this.display.enterEditMode();
     };
 
     return Controller;
@@ -283,12 +283,30 @@
       return $("" + this.container + " [name=twitter-search]").val();
     };
 
+    Display.prototype.exitEditMode = function() {
+      this.hideForm();
+      return this.hideCloseWidget();
+    };
+
     Display.prototype.hideForm = function() {
       return $("" + this.container + " [data-id=twitter-form]").hide();
     };
 
+    Display.prototype.hideCloseWidget = function() {
+      return $("" + this.container + " [data-id=twitter-close]").hide();
+    };
+
+    Display.prototype.enterEditMode = function() {
+      this.showForm();
+      return this.showCloseWidget();
+    };
+
     Display.prototype.showForm = function() {
       return $("" + this.container + " [data-id=twitter-form]").show();
+    };
+
+    Display.prototype.showCloseWidget = function() {
+      return $("" + this.container + " [data-id=twitter-close]").show();
     };
 
     Display.prototype.removeWidget = function() {

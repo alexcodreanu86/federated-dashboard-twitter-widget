@@ -11,11 +11,25 @@ class Twitter.Widgets.Display
   getInput: ->
     $("#{@container} [name=twitter-search]").val()
 
+  exitEditMode: ->
+    @hideForm()
+    @hideCloseWidget()
+
   hideForm: ->
     $("#{@container} [data-id=twitter-form]").hide()
 
+  hideCloseWidget: ->
+    $("#{@container} [data-id=twitter-close]").hide()
+
+  enterEditMode: ->
+    @showForm()
+    @showCloseWidget()
+
   showForm: ->
     $("#{@container} [data-id=twitter-form]").show()
+
+  showCloseWidget: ->
+    $("#{@container} [data-id=twitter-close]").show()
 
   removeWidget: ->
     $(@container).remove()

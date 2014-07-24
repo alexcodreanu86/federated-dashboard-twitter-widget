@@ -66,20 +66,35 @@ describe "Twitter.Widget.Display", ->
     expect($('[data-id=twitter-output]')).toContainText("Other text")
     expect($('[data-id=twitter-output]')).toContainText("Third text")
 
-  it "hideForm is hiding the form", ->
+  it "exitEditMode is hiding the form", ->
     setupOneContainer()
     display = newDisplay(container1)
     display.setupWidget()
-    display.hideForm()
+    display.exitEditMode()
     expect($("#{container1} [data-id=twitter-form]").attr('style')).toEqual('display: none;')
 
-  it "showForm is showing the form", ->
+  it "exitEditMode is hiding the close-widget x", ->
     setupOneContainer()
     display = newDisplay(container1)
     display.setupWidget()
-    display.hideForm()
-    display.showForm()
-    expect($("#{container2} [data-id=twitter-form]").attr('style')).not.toEqual('display: none;')
+    display.exitEditMode()
+    expect($("#{container1} [data-id=twitter-close]").attr('style')).toEqual('display: none;')
+
+  it "enterEditMode is showing the form", ->
+    setupOneContainer()
+    display = newDisplay(container1)
+    display.setupWidget()
+    display.exitEditMode()
+    display.enterEditMode()
+    expect($("#{container1} [data-id=twitter-form]").attr('style')).not.toEqual('display: none;')
+
+  it "enterEditMode is showing close-widget x", ->
+    setupOneContainer()
+    display = newDisplay(container1)
+    display.setupWidget()
+    display.exitEditMode()
+    display.enterEditMode()
+    expect($("#{container1} [data-id=twitter-close]").attr('style')).not.toEqual('display: none;')
 
   it "removeWidget is removing the widget's content", ->
     setupOneContainer()
