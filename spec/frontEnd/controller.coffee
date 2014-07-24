@@ -109,3 +109,13 @@ describe "Twitter.Controller", ->
     Twitter.Controller.setupWidgetIn(container2, "123456")
     Twitter.Controller.closeWidgetInContainer(container1)
     expect(Twitter.Controller.getWidgets().length).toEqual(1)
+
+  it "allWidgetsExecute is removing the inactive widgets", ->
+    resetWidgetsContainer()
+    setupTwoContainers()
+    Twitter.Controller.setupWidgetIn(container1, "123456")
+    Twitter.Controller.setupWidgetIn(container2, "123456")
+    Twitter.Controller.widgets[0].setAsInactive()
+    Twitter.Controller.allWidgetsExecute('hideForm')
+    expect(Twitter.Controller.widgets.length).toBe(1)
+

@@ -18,7 +18,7 @@ class Twitter.Widgets.Display
     $("#{@container} [data-id=twitter-form]").show()
 
   removeWidget: ->
-    $("#{@container} [data-id=twitter-widget-wrapper]").remove()
+    $(@container).remove()
 
   showTweets: (twitterResponse) ->
     twitterHtml = @generateHtml(twitterResponse)

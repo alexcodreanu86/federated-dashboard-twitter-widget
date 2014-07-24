@@ -29,7 +29,6 @@
       count: 5,
       result_type: 'recent'
     }, function(data) {
-      data.statuses;
       return response.send(data.statuses);
     });
   });

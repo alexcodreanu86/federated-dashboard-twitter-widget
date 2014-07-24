@@ -6,6 +6,7 @@ class Twitter.Widgets.Templates
                 <div class="widget" data-id="twitter-widget-wrapper">
                   <div class="widget-header">
                     <h2 class="widget-title">Twitter</h2>
+                    <span class='widget-close' data-id='twitter-close'>×</span>
                     <div class="widget-form" data-id="twitter-form">
                       <input name="twitter-search" type="text" autofocus="true">
                       <button id="twitter" data-id="twitter-button">Search twitter</button><br>

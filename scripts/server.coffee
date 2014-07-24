@@ -14,7 +14,6 @@ app.get '/search_twitter/:search_for', (request, response) ->
   searchFor = request.params.search_for
   searchKey = Twitter.getSearchFormat(searchFor)
   twit.search searchKey, {count: 5, result_type: 'recent'}, (data) ->
-    data.statuses
     response.send data.statuses
 
 app.get '/', (request, response) ->

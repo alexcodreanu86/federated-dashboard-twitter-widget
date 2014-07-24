@@ -3,8 +3,8 @@ namespace('Twitter')
 class Twitter.Controller
   @widgets: []
 
-  @setupWidgetIn: (container, apiKey) ->
-    widget = new Twitter.Widgets.Controller(container, apiKey)
+  @setupWidgetIn: (container, apiKey, defaultValue) ->
+    widget = new Twitter.Widgets.Controller(container, apiKey, defaultValue)
     widget.initialize()
     @addToWidgetsContainer(widget)
 
@@ -21,8 +21,11 @@ class Twitter.Controller
     @allWidgetsExecute("showForm")
 
   @allWidgetsExecute: (command) ->
-    _.each(@widgets, (widget) ->
-      widget[command]()
+    _.each(@widgets, (widget) =>
+      if widget.isActive()
+        widget[command]()
+      else
+        @removeFromWidgetsContainer(widget)
     )
 
   @closeWidgetInContainer: (container) ->

@@ -25,9 +25,9 @@
 
     Controller.widgets = [];
 
-    Controller.setupWidgetIn = function(container, apiKey) {
+    Controller.setupWidgetIn = function(container, apiKey, defaultValue) {
       var widget;
-      widget = new Twitter.Widgets.Controller(container, apiKey);
+      widget = new Twitter.Widgets.Controller(container, apiKey, defaultValue);
       widget.initialize();
       return this.addToWidgetsContainer(widget);
     };
@@ -49,9 +49,15 @@
     };
 
     Controller.allWidgetsExecute = function(command) {
-      return _.each(this.widgets, function(widget) {
-        return widget[command]();
-      });
+      return _.each(this.widgets, (function(_this) {
+        return function(widget) {
+          if (widget.isActive()) {
+            return widget[command]();
+          } else {
+            return _this.removeFromWidgetsContainer(widget);
+          }
+        };
+      })(this));
     };
 
     Controller.closeWidgetInContainer = function(container) {
@@ -139,20 +145,68 @@
 (function() {
   namespace("Twitter.Widgets");
 
+  Twitter.Widgets.API = (function() {
+    function API() {}
+
+    API.getPosts = function(searchInput, displayer) {
+      var url;
+      url = this.generateUrl(searchInput);
+      return $.get(url, (function(_this) {
+        return function(response) {
+          return displayer.showTweets(response);
+        };
+      })(this), 'json');
+    };
+
+    API.generateUrl = function(input) {
+      return "/search_twitter/" + input;
+    };
+
+    return API;
+
+  })();
+
+}).call(this);
+
+(function() {
+  namespace("Twitter.Widgets");
+
   Twitter.Widgets.Controller = (function() {
     var apiKey;
 
     apiKey = void 0;
 
-    function Controller(container, key) {
+    function Controller(container, key, defaultValue) {
       apiKey = key;
       this.container = container;
       this.display = new Twitter.Widgets.Display(container);
+      this.defaultValue = defaultValue;
+      this.setAsInactive();
     }
 
     Controller.prototype.initialize = function() {
       this.display.setupWidget();
-      return this.bind();
+      this.bind();
+      this.displayDefault();
+      return this.setAsActive();
+    };
+
+    Controller.prototype.displayDefault = function() {
+      if (this.defaultValue) {
+        return this.getTwitterPosts(this.defaultValue);
+      }
+    };
+
+    Controller.prototype.setAsActive = function() {
+      return this.activeStatus = true;
+    };
+
+    Controller.prototype.setAsInactive = function() {
+      return this.activeStatus = false;
+    };
+
+    Controller.prototype.isActive = function() {
+      return this.activeStatus;
     };
 
     Controller.prototype.getContainer = function() {
@@ -160,9 +214,14 @@
     };
 
     Controller.prototype.bind = function() {
-      return $("" + this.container + " [data-id=twitter-button]").click((function(_this) {
+      $("" + this.container + " [data-id=twitter-button]").click((function(_this) {
         return function() {
           return _this.processClickedButton();
+        };
+      })(this));
+      return $("" + this.container + " [data-id=twitter-close]").click((function(_this) {
+        return function() {
+          return _this.closeWidget();
         };
       })(this));
     };
@@ -173,18 +232,23 @@
       return this.getTwitterPosts(input);
     };
 
-    Controller.prototype.getTwitterPosts = function(searchInput) {
-      var url;
-      url = this.generateUrl(searchInput);
-      return $.get(url, (function(_this) {
-        return function(response) {
-          return _this.display.showTweets(response);
-        };
-      })(this), 'json');
+    Controller.prototype.getTwitterPosts = function(input) {
+      return Twitter.Widgets.API.getPosts(input, this.display);
     };
 
-    Controller.prototype.generateUrl = function(input) {
-      return "/search_twitter/" + input;
+    Controller.prototype.closeWidget = function() {
+      this.unbind();
+      this.removeContent();
+      return this.setAsInactive();
+    };
+
+    Controller.prototype.removeContent = function() {
+      return this.display.removeWidget();
+    };
+
+    Controller.prototype.unbind = function() {
+      $("" + this.container + " [data-id=stock-button]").unbind('click');
+      return $("" + this.container + " [data-id=stock-close]").unbind('click');
     };
 
     Controller.prototype.hideForm = function() {
@@ -193,10 +257,6 @@
 
     Controller.prototype.showForm = function() {
       return this.display.showForm();
-    };
-
-    Controller.prototype.removeContent = function() {
-      return this.display.removeWidget();
     };
 
     return Controller;
@@ -232,7 +292,7 @@
     };
 
     Display.prototype.removeWidget = function() {
-      return $("" + this.container + " [data-id=twitter-widget-wrapper]").remove();
+      return $(this.container).remove();
     };
 
     Display.prototype.showTweets = function(twitterResponse) {
@@ -258,7 +318,7 @@
     function Templates() {}
 
     Templates.renderForm = function() {
-      return _.template("<div class=\"widget\" data-id=\"twitter-widget-wrapper\">\n  <div class=\"widget-header\">\n    <h2 class=\"widget-title\">Twitter</h2>\n    <div class=\"widget-form\" data-id=\"twitter-form\">\n      <input name=\"twitter-search\" type=\"text\" autofocus=\"true\">\n      <button id=\"twitter\" data-id=\"twitter-button\">Search twitter</button><br>\n    </div>\n  </div>\n  <div class=\"widget-body\" data-id=\"twitter-output\"></div>\n</div>");
+      return _.template("<div class=\"widget\" data-id=\"twitter-widget-wrapper\">\n  <div class=\"widget-header\">\n    <h2 class=\"widget-title\">Twitter</h2>\n    <span class='widget-close' data-id='twitter-close'>×</span>\n    <div class=\"widget-form\" data-id=\"twitter-form\">\n      <input name=\"twitter-search\" type=\"text\" autofocus=\"true\">\n      <button id=\"twitter\" data-id=\"twitter-button\">Search twitter</button><br>\n    </div>\n  </div>\n  <div class=\"widget-body\" data-id=\"twitter-output\"></div>\n</div>");
     };
 
     Templates.renderTweets = function(tweets) {
