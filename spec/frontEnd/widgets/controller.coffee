@@ -10,13 +10,25 @@ clickButton = (container) ->
 
 twitterResponse = [
   {
-    text: "Some Text"
+    "text": "Some Text",
+    "user": {
+      "profile_image_url": "mockImg/001.jpeg",
+      "name": "One"
+    }
   },
   {
-    text: "Other text"
+    "text": "Other text",
+    "user": {
+      "profile_image_url": "mockImg/002.jpeg",
+      "name": "Two"
+    }
   },
   {
-    text: "Third text"
+    "text": "Third text",
+    "user": {
+      "profile_image_url": "mockImg/003.jpeg",
+      "name": "Three"
+    }
   }
 ]
 

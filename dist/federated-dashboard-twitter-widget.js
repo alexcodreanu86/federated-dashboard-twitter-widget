@@ -314,9 +314,30 @@
     };
 
     Display.prototype.showTweets = function(twitterResponse) {
-      var twitterHtml;
-      twitterHtml = this.generateHtml(twitterResponse);
+      var formatedResponse, twitterHtml;
+      formatedResponse = this.formatResponse(twitterResponse);
+      twitterHtml = this.generateHtml(formatedResponse);
       return $("" + this.container + " [data-id=twitter-output]").html(twitterHtml);
+    };
+
+    Display.prototype.formatResponse = function(twitterResponse) {
+      var formatedResponse;
+      formatedResponse = [];
+      _.forEach(twitterResponse, (function(_this) {
+        return function(tweet) {
+          return formatedResponse.push(_this.formatTweet(tweet));
+        };
+      })(this));
+      return formatedResponse;
+    };
+
+    Display.prototype.formatTweet = function(tweet) {
+      var formatedTweet;
+      formatedTweet = {};
+      formatedTweet.text = tweet.text;
+      formatedTweet.user_name = tweet.user.name;
+      formatedTweet.img_url = tweet.user.profile_image_url;
+      return formatedTweet;
     };
 
     Display.prototype.generateHtml = function(twitterResponse) {
@@ -340,7 +361,7 @@
     };
 
     Templates.renderTweets = function(tweets) {
-      return _.template("<% for(var i = 0; i< tweets.length; i++) { %>\n<p><%= i + 1 %> <%= tweets[i][\"text\"] %></p>\n<% } %>", {
+      return _.template("<% for(var i = 0; i< tweets.length; i++) { %>\n  <div class=\"tweet\">\n    <div class=\"user-img\"><img data-id=\"user-img\" src=\"<%= tweets[i][\"img_url\"] %>\"/></div>\n    <div class=\"tweet-body\">\n      <h3 data-id=\"user-name\"><%= tweets[i][\"user_name\"] %></h3>\n      <p data-id=\"tweet-content\"><%= i + 1 %> <%= tweets[i][\"text\"] %></p>\n    </div>\n  </div>\n<% } %>", {
         tweets: tweets
       });
     };

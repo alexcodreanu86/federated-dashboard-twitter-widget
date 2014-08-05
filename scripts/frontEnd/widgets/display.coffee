@@ -35,8 +35,23 @@ class Twitter.Widgets.Display
     $(@container).remove()
 
   showTweets: (twitterResponse) ->
-    twitterHtml = @generateHtml(twitterResponse)
+    formatedResponse = @formatResponse(twitterResponse)
+    twitterHtml = @generateHtml(formatedResponse)
     $("#{@container} [data-id=twitter-output]").html(twitterHtml)
+
+  formatResponse: (twitterResponse) ->
+    formatedResponse = []
+    _.forEach(twitterResponse, (tweet) =>
+      formatedResponse.push @formatTweet(tweet)
+    )
+    formatedResponse
+
+  formatTweet: (tweet) ->
+    formatedTweet = {}
+    formatedTweet.text = tweet.text
+    formatedTweet.user_name = tweet.user.name
+    formatedTweet.img_url = tweet.user.profile_image_url
+    formatedTweet
 
   generateHtml: (twitterResponse) ->
     Twitter.Widgets.Templates.renderTweets(twitterResponse)

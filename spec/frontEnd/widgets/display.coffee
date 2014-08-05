@@ -1,12 +1,24 @@
 twitterResponse = [
   {
-    "text": "Some Text"
+    "text": "Some Text",
+    "user": {
+      "profile_image_url": "mockImg/001.jpeg",
+      "name": "One"
+    }
   },
   {
-    "text": "Other text"
+    "text": "Other text",
+    "user": {
+      "profile_image_url": "mockImg/002.jpeg",
+      "name": "Two"
+    }
   },
   {
-    "text": "Third text"
+    "text": "Third text",
+    "user": {
+      "profile_image_url": "mockImg/003.jpeg",
+      "name": "Three"
+    }
   }
 ]
 
@@ -102,3 +114,10 @@ describe "Twitter.Widget.Display", ->
     display.setupWidget()
     display.removeWidget()
     expect($(container2)).not.toContainElement("[data-id=twitter-widget-wrapper]")
+
+  it "formatResponse is providing the proper data format", ->
+    display = newDisplay(container1)
+    response = display.formatResponse(twitterResponse)
+    expect(response[0].user_name).toEqual("One")
+    expect(response[0].img_url).toEqual("mockImg/001.jpeg")
+    expect(response[0].text).toEqual("Some Text")
