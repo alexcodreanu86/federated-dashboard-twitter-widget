@@ -361,7 +361,7 @@
     };
 
     Templates.renderTweets = function(tweets) {
-      return _.template("<% for(var i = 0; i< tweets.length; i++) { %>\n  <div class=\"tweet\">\n    <div class=\"user-img\"><img data-id=\"user-img\" src=\"<%= tweets[i][\"img_url\"] %>\"/></div>\n    <div class=\"tweet-body\">\n      <h3 data-id=\"user-name\"><%= tweets[i][\"user_name\"] %></h3>\n      <p data-id=\"tweet-content\"><%= i + 1 %> <%= tweets[i][\"text\"] %></p>\n    </div>\n  </div>\n<% } %>", {
+      return _.template("<% for(var i = 0; i< tweets.length; i++) { %>\n  <div class=\"tweet\">\n    <div class=\"user-img\"><img class=\"tweeter-user-img\" data-id=\"user-img\" src=\"<%= tweets[i][\"img_url\"] %>\"/></div>\n    <div class=\"tweet-body\">\n      <h3 class=\"twitter-user-name\" data-id=\"user-name\"><%= tweets[i][\"user_name\"] %></h3>\n      <p class=\"twitter-tweet-content\" data-id=\"tweet-content\"><%= tweets[i][\"text\"] %></p>\n    </div>\n  </div>\n<% } %>", {
         tweets: tweets
       });
     };

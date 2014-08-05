@@ -23,7 +23,7 @@ class Twitter.Widgets.Templates
           <div class="user-img"><img class="tweeter-user-img" data-id="user-img" src="<%= tweets[i]["img_url"] %>"/></div>
           <div class="tweet-body">
             <h3 class="twitter-user-name" data-id="user-name"><%= tweets[i]["user_name"] %></h3>
-            <p class="twitter-tweet-content" data-id="tweet-content"><%= i + 1 %> <%= tweets[i]["text"] %></p>
+            <p class="twitter-tweet-content" data-id="tweet-content"><%= tweets[i]["text"] %></p>
           </div>
         </div>
       <% } %>
