@@ -2,9 +2,6 @@ container     = "[data-id=widget-container-1]"
 key           = "1243"
 defaultValue  = "bikes"
 
-setInputValue = (value) ->
-  $('[name=twitter-search]').val(value)
-
 clickButton = (container) ->
   $("#{container} [data-id=twitter-button]").click()
 

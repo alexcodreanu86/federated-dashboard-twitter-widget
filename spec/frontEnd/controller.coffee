@@ -1,38 +1,3 @@
-setupOneContainer = ->
-  setFixtures " <div data-id='widget-container-1'></div>"
-
-setupTwoContainers = ->
-  setFixtures """
-    <div data-id='widget-container-1'></div>
-    <div data-id='widget-container-2'></div>
-  """
-
-container1 = "[data-id=widget-container-1]"
-container2 = "[data-id=widget-container-2]"
-
-twitterResponse = [
-  {
-    text: "Some Text"
-  },
-  {
-    text: "Other text"
-  },
-  {
-    text: "Third text"
-  }
-]
-
-getJsonObject = ->
-  JSON.stringify(twitterResponse)
-
-setupTwitterDisplay = ->
-  setupFixtures()
-  Twitter.Controller.bind()
-  setInputValue('bikes')
-
-clickOn = (element) ->
-  $(element).click()
-
 resetWidgetsContainer = ->
   Twitter.Controller.widgets = []
 
