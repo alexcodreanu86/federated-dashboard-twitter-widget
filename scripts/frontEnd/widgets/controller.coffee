@@ -2,11 +2,11 @@ namespace("Twitter.Widgets")
 
 class Twitter.Widgets.Controller
   apiKey = undefined
-  constructor: (container, key, defaultValue) ->
-    apiKey = key
-    @container = container
-    @display = new Twitter.Widgets.Display(container)
-    @defaultValue = defaultValue
+  constructor: (settings) ->
+    apiKey = settings.key
+    @container = settings.container
+    @display = new Twitter.Widgets.Display(@container)
+    @defaultValue = settings.defaultValue
     @setAsInactive()
 
   initialize: ->

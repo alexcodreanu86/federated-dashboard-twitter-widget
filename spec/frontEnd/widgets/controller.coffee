@@ -38,7 +38,7 @@ setupOneContainer = ->
 container = "[data-id=widget-container-1]"
 
 newController = (container, value) ->
-  new Twitter.Widgets.Controller(container, key, value)
+  new Twitter.Widgets.Controller({container: container, key: key, defaultValue: value})
 
 describe "Twitter.Widgets.Controller", ->
   it "stores the container that it is initialized with", ->

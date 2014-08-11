@@ -4,21 +4,24 @@ resetWidgetsContainer = ->
 setSandbox = ->
   setFixtures(sandbox())
 
+setupTwoWidgetsInContainers = ->
+  setupTwoContainers()
+  setupWidgetInContainer(container1)
+  setupWidgetInContainer(container2)
+
 setupTwoContainers = ->
   setFixtures """
     <div data-id='widget-container-1'></div>
     <div data-id='widget-container-2'></div>
   """
 
+setupWidgetInContainer = (container) ->
+  Twitter.Controller.setupWidgetIn({container: container})
+
 container1 = "[data-id=widget-container-1]"
 container2 = "[data-id=widget-container-2]"
 
 describe "Twitter.Controller", ->
-  it "setupWidgetIn displays the twitterForm in the given container", ->
-    setFixtures(sandbox())
-    Twitter.Controller.setupWidgetIn('#sandbox')
-    expect($('#sandbox')).toContainElement('[name=twitter-search]')
-
   it "widgets container is empty on initialization", ->
     resetWidgetsContainer()
     container = Twitter.Controller.getWidgets()
@@ -27,7 +30,7 @@ describe "Twitter.Controller", ->
   it "setupWidgetIn is setting up a widget instance in the desired element", ->
     resetWidgetsContainer()
     setSandbox()
-    Twitter.Controller.setupWidgetIn('#sandbox', "123456")
+    setupWidgetInContainer('#sandbox')
     html = $('#sandbox')
     expect(html).toContainElement('[name=twitter-search]')
     expect(html).toContainElement('[data-id=twitter-button]')
@@ -41,18 +44,14 @@ describe "Twitter.Controller", ->
 
   it "hideForms is hiding the forms of all the widgets that are initialized", ->
     resetWidgetsContainer()
-    setupTwoContainers()
-    Twitter.Controller.setupWidgetIn(container1, "123456")
-    Twitter.Controller.setupWidgetIn(container2, "123456")
+    setupTwoWidgetsInContainers()
     Twitter.Controller.hideForms()
     expect($("#{container1} [data-id=twitter-form]").attr('style')).toEqual('display: none;')
     expect($("#{container2} [data-id=twitter-form]").attr('style')).toEqual('display: none;')
 
   it "showForms is showing the forms of all the widgets that are initialized", ->
     resetWidgetsContainer()
-    setupTwoContainers()
-    Twitter.Controller.setupWidgetIn(container1, "123456")
-    Twitter.Controller.setupWidgetIn(container2, "123456")
+    setupTwoWidgetsInContainers()
     Twitter.Controller.hideForms()
     Twitter.Controller.showForms()
     expect($("#{container1} [data-id=twitter-form]").attr('style')).not.toEqual('display: none;')
@@ -60,26 +59,20 @@ describe "Twitter.Controller", ->
 
   it "closeWidgetInContainer will eliminate the widget from the given container", ->
     resetWidgetsContainer()
-    setupTwoContainers()
-    Twitter.Controller.setupWidgetIn(container1, "123456")
-    Twitter.Controller.setupWidgetIn(container2, "123456")
+    setupTwoWidgetsInContainers()
     Twitter.Controller.closeWidgetInContainer(container1)
     expect($("#{container1} [data-id=twitter-form]")).not.toBeInDOM()
     expect($("#{container2} [data-id=twitter-form]")).toBeInDOM()
 
   it "closeWidgetInContainer will remove the widget from the widgets container", ->
     resetWidgetsContainer()
-    setupTwoContainers()
-    Twitter.Controller.setupWidgetIn(container1, "123456")
-    Twitter.Controller.setupWidgetIn(container2, "123456")
+    setupTwoWidgetsInContainers()
     Twitter.Controller.closeWidgetInContainer(container1)
     expect(Twitter.Controller.getWidgets().length).toEqual(1)
 
   it "allWidgetsExecute is removing the inactive widgets", ->
     resetWidgetsContainer()
-    setupTwoContainers()
-    Twitter.Controller.setupWidgetIn(container1, "123456")
-    Twitter.Controller.setupWidgetIn(container2, "123456")
+    setupTwoWidgetsInContainers()
     Twitter.Controller.widgets[0].setAsInactive()
     Twitter.Controller.allWidgetsExecute('hideForm')
     expect(Twitter.Controller.widgets.length).toBe(1)

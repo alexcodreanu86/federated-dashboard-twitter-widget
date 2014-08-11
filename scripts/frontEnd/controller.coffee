@@ -3,8 +3,8 @@ namespace('Twitter')
 class Twitter.Controller
   @widgets: []
 
-  @setupWidgetIn: (container, apiKey, defaultValue) ->
-    widget = new Twitter.Widgets.Controller(container, apiKey, defaultValue)
+  @setupWidgetIn: (settings) ->
+    widget = new Twitter.Widgets.Controller(settings)
     widget.initialize()
     @addToWidgetsContainer(widget)
 
