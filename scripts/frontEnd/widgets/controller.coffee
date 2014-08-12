@@ -5,7 +5,7 @@ class Twitter.Widgets.Controller
   constructor: (settings) ->
     apiKey = settings.key
     @container = settings.container
-    @display = new Twitter.Widgets.Display(@container)
+    @display = new Twitter.Widgets.Display(@container, settings.animationSpeed)
     @defaultValue = settings.defaultValue
     @setAsInactive()
 

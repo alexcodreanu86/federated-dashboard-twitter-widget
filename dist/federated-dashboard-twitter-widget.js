@@ -140,7 +140,7 @@
     function Controller(settings) {
       apiKey = settings.key;
       this.container = settings.container;
-      this.display = new Twitter.Widgets.Display(this.container);
+      this.display = new Twitter.Widgets.Display(this.container, settings.animationSpeed);
       this.defaultValue = settings.defaultValue;
       this.setAsInactive();
     }
@@ -230,8 +230,9 @@
   namespace("Twitter.Widget");
 
   Twitter.Widgets.Display = (function() {
-    function Display(container) {
+    function Display(container, animationSpeed) {
       this.container = container;
+      this.animationSpeed = animationSpeed;
     }
 
     Display.prototype.setupWidget = function() {
@@ -250,11 +251,11 @@
     };
 
     Display.prototype.hideForm = function() {
-      return $("" + this.container + " [data-id=twitter-form]").hide();
+      return $("" + this.container + " [data-id=twitter-form]").hide(this.animationSpeed);
     };
 
     Display.prototype.hideCloseWidget = function() {
-      return $("" + this.container + " [data-id=twitter-close]").hide();
+      return $("" + this.container + " [data-id=twitter-close]").hide(this.animationSpeed);
     };
 
     Display.prototype.enterEditMode = function() {
@@ -263,11 +264,11 @@
     };
 
     Display.prototype.showForm = function() {
-      return $("" + this.container + " [data-id=twitter-form]").show();
+      return $("" + this.container + " [data-id=twitter-form]").show(this.animationSpeed);
     };
 
     Display.prototype.showCloseWidget = function() {
-      return $("" + this.container + " [data-id=twitter-close]").show();
+      return $("" + this.container + " [data-id=twitter-close]").show(this.animationSpeed);
     };
 
     Display.prototype.removeWidget = function() {

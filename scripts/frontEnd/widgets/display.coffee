@@ -1,8 +1,9 @@
 namespace("Twitter.Widget")
 
 class Twitter.Widgets.Display
-  constructor: (container) ->
+  constructor: (container, animationSpeed) ->
     @container = container
+    @animationSpeed = animationSpeed
 
   setupWidget: ->
     widgetHtml = Twitter.Widgets.Templates.renderForm()
@@ -16,20 +17,20 @@ class Twitter.Widgets.Display
     @hideCloseWidget()
 
   hideForm: ->
-    $("#{@container} [data-id=twitter-form]").hide()
+    $("#{@container} [data-id=twitter-form]").hide(@animationSpeed)
 
   hideCloseWidget: ->
-    $("#{@container} [data-id=twitter-close]").hide()
+    $("#{@container} [data-id=twitter-close]").hide(@animationSpeed)
 
   enterEditMode: ->
     @showForm()
     @showCloseWidget()
 
   showForm: ->
-    $("#{@container} [data-id=twitter-form]").show()
+    $("#{@container} [data-id=twitter-form]").show(@animationSpeed)
 
   showCloseWidget: ->
-    $("#{@container} [data-id=twitter-close]").show()
+    $("#{@container} [data-id=twitter-close]").show(@animationSpeed)
 
   removeWidget: ->
     $(@container).remove()
