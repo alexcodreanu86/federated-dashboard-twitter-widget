@@ -143,6 +143,7 @@
       this.display = new Twitter.Widgets.Display(this.container, settings.animationSpeed);
       this.defaultValue = settings.defaultValue;
       this.setAsInactive();
+      this.refreshRate = settings.refreshRate;
     }
 
     Controller.prototype.initialize = function() {
@@ -194,7 +195,27 @@
     };
 
     Controller.prototype.getTwitterPosts = function(input) {
-      return Twitter.Widgets.API.getPosts(input, this.display);
+      Twitter.Widgets.API.getPosts(input, this.display);
+      if (this.refreshRate) {
+        this.clearActiveTimeout();
+        return this.refreshImages(input);
+      }
+    };
+
+    Controller.prototype.clearActiveTimeout = function() {
+      if (this.timeout) {
+        return clearTimeout(this.timeout);
+      }
+    };
+
+    Controller.prototype.refreshImages = function(searchStr) {
+      return this.timeout = setTimeout((function(_this) {
+        return function() {
+          if (_this.isActive()) {
+            return _this.getTwitterPosts(searchStr);
+          }
+        };
+      })(this), this.refreshRate * 1000);
     };
 
     Controller.prototype.closeWidget = function() {

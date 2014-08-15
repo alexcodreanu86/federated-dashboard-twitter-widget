@@ -1,5 +1,5 @@
 (function() {
-  var Twitter, app, express, fs, path, server, twit, util;
+  var Twitter, app, express, fs, http, io, path, server, twit, util;
 
   express = require('express');
 
@@ -10,6 +10,10 @@
   util = require('util');
 
   Twitter = require('./dist/backend_module');
+
+  http = require('http');
+
+  io = require('socket.io');
 
   app = express();
 

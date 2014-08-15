@@ -3,6 +3,8 @@ fs = require('fs')
 path = require('path')
 util = require('util')
 Twitter = require('./dist/backend_module')
+http = require('http')
+io = require('socket.io')
 app = express()
 
 twit = Twitter.setupAuthenticationObject()

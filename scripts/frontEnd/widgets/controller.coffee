@@ -8,6 +8,7 @@ class Twitter.Widgets.Controller
     @display = new Twitter.Widgets.Display(@container, settings.animationSpeed)
     @defaultValue = settings.defaultValue
     @setAsInactive()
+    @refreshRate  = settings.refreshRate
 
   initialize: ->
     @display.setupWidget()
@@ -42,6 +43,17 @@ class Twitter.Widgets.Controller
 
   getTwitterPosts: (input) ->
     Twitter.Widgets.API.getPosts(input, @display)
+    if @refreshRate
+      @clearActiveTimeout()
+      @refreshImages(input)
+
+   clearActiveTimeout: ->
+     clearTimeout(@timeout) if @timeout
+
+   refreshImages: (searchStr) ->
+     @timeout = setTimeout(=>
+       @getTwitterPosts(searchStr) if @isActive()
+     , @refreshRate * 1000)
 
   closeWidget: ->
     @unbind()

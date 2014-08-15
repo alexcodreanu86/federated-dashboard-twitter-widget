@@ -1,5 +1,4 @@
 container     = "[data-id=widget-container-1]"
-key           = "1243"
 defaultValue  = "bikes"
 
 clickButton = (container) ->
@@ -38,7 +37,7 @@ setupOneContainer = ->
 container = "[data-id=widget-container-1]"
 
 newController = (container, value) ->
-  new Twitter.Widgets.Controller({container: container, key: key, defaultValue: value})
+  new Twitter.Widgets.Controller({container: container, defaultValue: value})
 
 describe "Twitter.Widgets.Controller", ->
   it "stores the container that it is initialized with", ->
@@ -157,3 +156,42 @@ describe "Twitter.Widgets.Controller", ->
     controller.initialize()
     controller.removeContent()
     expect($(container)).not.toContainElement("[data-id=twitter-widget-wrapper]")
+
+  describe "refresh Rate", ->
+    newRefreshController = (container, refreshRate) ->
+      new Twitter.Widgets.Controller({container: container, refreshRate: refreshRate})
+
+    oneMinute   = 60 * 1000
+    controller  = undefined
+    spy         = undefined
+
+    beforeEach ->
+      controller = newRefreshController(container, 50)
+      controller.setAsActive()
+      spy = spyOn(Twitter.Widgets.API, 'getPosts')
+      jasmine.clock().install()
+
+    afterEach ->
+      jasmine.clock().uninstall()
+
+    it "refreshes information when refreshRate is provided", ->
+      controller.getTwitterPosts('some input')
+      expect(spy.calls.count()).toEqual(1)
+      jasmine.clock().tick(oneMinute)
+      expect(spy.calls.count()).toEqual(2)
+
+    it "will not refresh if the widget is closed", ->
+      controller.getTwitterPosts('some input')
+      expect(spy.calls.count()).toEqual(1)
+      controller.closeWidget()
+      jasmine.clock().tick(oneMinute)
+      expect(spy.calls.count()).toEqual(1)
+
+    it "will not refresh if no refreshRate is specified", ->
+      controller = newRefreshController(container, undefined)
+      controller.setAsActive()
+      controller.getTwitterPosts('some input')
+      expect(spy.calls.count()).toEqual(1)
+      jasmine.clock().tick(oneMinute)
+      expect(spy.calls.count()).toEqual(1)
+
