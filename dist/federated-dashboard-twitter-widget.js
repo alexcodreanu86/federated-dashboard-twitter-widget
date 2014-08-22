@@ -40,12 +40,12 @@
       return this.widgets;
     };
 
-    Controller.hideForms = function() {
-      return this.allWidgetsExecute("hideForm");
+    Controller.exitEditMode = function() {
+      return this.allWidgetsExecute("exitEditMode");
     };
 
-    Controller.showForms = function() {
-      return this.allWidgetsExecute("showForm");
+    Controller.enterEditMode = function() {
+      return this.allWidgetsExecute("enterEditMode");
     };
 
     Controller.allWidgetsExecute = function(command) {
@@ -233,11 +233,11 @@
       return $("" + this.container + " [data-id=stock-close]").unbind('click');
     };
 
-    Controller.prototype.hideForm = function() {
+    Controller.prototype.exitEditMode = function() {
       return this.display.exitEditMode();
     };
 
-    Controller.prototype.showForm = function() {
+    Controller.prototype.enterEditMode = function() {
       return this.display.enterEditMode();
     };
 

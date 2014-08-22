@@ -42,18 +42,18 @@ describe "Twitter.Controller", ->
     Twitter.Controller.setupWidgetIn('#sandbox', "123456")
     expect(Twitter.Controller.getWidgets().length).toEqual(1)
 
-  it "hideForms is hiding the forms of all the widgets that are initialized", ->
+  it "exitEditMode is hiding the forms of all the widgets that are initialized", ->
     resetWidgetsContainer()
     setupTwoWidgetsInContainers()
-    Twitter.Controller.hideForms()
+    Twitter.Controller.exitEditMode()
     expect($("#{container1} [data-id=twitter-form]").attr('style')).toEqual('display: none;')
     expect($("#{container2} [data-id=twitter-form]").attr('style')).toEqual('display: none;')
 
-  it "showForms is showing the forms of all the widgets that are initialized", ->
+  it "enterEditMode is showing the forms of all the widgets that are initialized", ->
     resetWidgetsContainer()
     setupTwoWidgetsInContainers()
-    Twitter.Controller.hideForms()
-    Twitter.Controller.showForms()
+    Twitter.Controller.exitEditMode()
+    Twitter.Controller.enterEditMode()
     expect($("#{container1} [data-id=twitter-form]").attr('style')).not.toEqual('display: none;')
     expect($("#{container2} [data-id=twitter-form]").attr('style')).not.toEqual('display: none;')
 
@@ -74,6 +74,6 @@ describe "Twitter.Controller", ->
     resetWidgetsContainer()
     setupTwoWidgetsInContainers()
     Twitter.Controller.widgets[0].setAsInactive()
-    Twitter.Controller.allWidgetsExecute('hideForm')
+    Twitter.Controller.allWidgetsExecute('enterEditMode')
     expect(Twitter.Controller.widgets.length).toBe(1)
 

@@ -67,9 +67,9 @@ class Twitter.Widgets.Controller
     $("#{@container} [data-id=stock-button]").unbind('click')
     $("#{@container} [data-id=stock-close]").unbind('click')
 
-  hideForm: ->
+  exitEditMode: ->
     @display.exitEditMode()
 
-  showForm: ->
+  enterEditMode: ->
     @display.enterEditMode()
 
