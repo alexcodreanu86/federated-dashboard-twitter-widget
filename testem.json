@@ -7,6 +7,7 @@
     "lib/sinon.js",
     "bower_components/jquery/dist/jquery.js",
     "bower_components/jasmine-jquery/lib/jasmine-jquery.js",
+    "bower_components/underscore/underscore.js",
     ".tmp/scripts/frontEnd/**/*.js",
     ".tmp/spec/frontEnd/**/*.js"
   ],

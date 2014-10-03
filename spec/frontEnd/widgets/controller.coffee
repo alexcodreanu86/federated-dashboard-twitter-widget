@@ -1,9 +1,6 @@
 container     = "[data-id=widget-container-1]"
 defaultValue  = "bikes"
 
-clickButton = (container) ->
-  $("#{container} [data-id=twitter-button]").click()
-
 twitterResponse = [
   {
     "text": "Some Text",
@@ -42,113 +39,102 @@ newController = (container, value) ->
 describe "Twitter.Widgets.Controller", ->
   it "stores the container that it is initialized with", ->
     controller = newController(container)
-    expect(controller.getContainer()).toEqual(container)
+    expect(controller.container).toEqual(container)
 
   it "stores a new instance of Twitter.Widget.Display when instantiated", ->
     controller = newController(container)
     expect(controller.display).toBeDefined()
 
-  it "initialize sets widget up in its container", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    expect($(container)).not.toBeEmpty()
+  describe "#initialize", ->
+    it "sets widget up in its container", ->
+      setupOneContainer()
+      controller = newController(container)
+      controller.initialize()
+      expect($(container)).not.toBeEmpty()
 
-  it "initialize is binding the controller", ->
-    controller = newController(container)
-    spy = spyOn(controller, 'bind')
-    controller.initialize()
-    expect(spy).toHaveBeenCalled()
+    it "binds the controller", ->
+      controller = newController(container)
+      spy = spyOn(controller, 'bind')
+      controller.initialize()
+      expect(spy).toHaveBeenCalled()
 
-  it "initialize is trying to display data for the default value", ->
-    controller = newController(container)
-    spy = spyOn(controller, 'displayDefault')
-    controller.initialize()
-    expect(spy).toHaveBeenCalled()
+    it "tries to display data for the default value", ->
+      controller = newController(container)
+      spy = spyOn(controller, 'displayDefault')
+      controller.initialize()
+      expect(spy).toHaveBeenCalled()
 
-  it "initialize is setting the widget as active", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    expect(controller.isActive()).toBe(true)
+    it "sets the widget as active", ->
+      setupOneContainer()
+      controller = newController(container)
+      controller.initialize()
+      expect(controller.isActive()).toBe(true)
 
-  it "displayDefault is loading data when there is a default value", ->
-    controller = newController(container, defaultValue)
-    spy = spyOn(Twitter.Widgets.API, 'getPosts')
-    controller.displayDefault()
-    expect(spy).toHaveBeenCalledWith(defaultValue, controller.display)
+  describe "#displayDefault", ->
+    it "displayDefault is loading data when there is a default value", ->
+      controller = newController(container, defaultValue)
+      spy = spyOn(Twitter.Widgets.API, 'getPosts')
+      controller.displayDefault()
+      expect(spy).toHaveBeenCalledWith(defaultValue, controller.display)
 
-  it "displayDefault doesn't do anything when no default value is provided", ->
-    controller = newController(container)
-    spy = spyOn(Twitter.Widgets.API, 'getPosts')
-    controller.displayDefault()
-    expect(spy).not.toHaveBeenCalled()
+    it "displayDefault doesn't do anything when no default value is provided", ->
+      controller = newController(container)
+      spy = spyOn(Twitter.Widgets.API, 'getPosts')
+      controller.displayDefault()
+      expect(spy).not.toHaveBeenCalled()
 
-  it "bind displays tweets with the search input when twitter button is clicked", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    server = sinon.fakeServer.create()
-    server.respondWith(/.+/, getJsonObject())
-    clickButton(container)
-    server.respond()
-    twitterOutput = $("#{container} [data-id=twitter-output]")
-    expect(twitterOutput).toContainText("Some Text")
-    expect(twitterOutput).toContainText("Other text")
-    expect(twitterOutput).toContainText("Third text")
-    server.restore()
+  describe '#bind', ->
+    it "displays tweets with the search input when twitter button is clicked", ->
+      setupOneContainer()
+      controller = newController(container)
+      controller.initialize()
+      server = sinon.fakeServer.create()
+      server.respondWith(/.+/, getJsonObject())
+      $('[data-name=form-button]').click()
+      server.respond()
+      twitterOutput = $("#{container} [data-name=widget-output]")
+      expect(twitterOutput).toContainText("Some Text")
+      expect(twitterOutput).toContainText("Other text")
+      expect(twitterOutput).toContainText("Third text")
+      server.restore()
 
-  it "bind removes the widget when close-widget button is clicked", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    $("#{container} [data-id=twitter-close]").click()
-    expect(container).not.toBeInDOM()
+    it "removes the widget when close-widget button is clicked", ->
+      setupOneContainer()
+      controller = newController(container)
+      controller.initialize()
+      $("[data-name=widget-close]").click()
+      expect(container).not.toBeInDOM()
 
-  it 'unbind is unbinding the twitter button click processing', ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    controller.unbind()
-    $("#{container} [data-id=twitter-button]").click()
-    expect($('[data-id=twitter-output]')).toBeEmpty()
+  describe '#unbind', ->
+    it 'unbind is unbinding the form submit', ->
+      controller = newController(container)
+      spy = spyOn $.prototype, 'unbind'
+      controller.unbind()
+      expect(spy).toHaveBeenCalledWith('submit')
 
-  it "unbind is unbinding close widget button processing", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    controller.unbind()
-    $("#{container} [data-id=twitter-close]").click()
-    expect($(container)).not.toBeEmpty()
+    it "unbind is unbinding close widget button processing", ->
+      setupOneContainer()
+      controller = newController(container)
+      controller.initialize()
+      controller.unbind()
+      $("[data-name=widget-close]").click()
+      expect($(container)).not.toBeEmpty()
 
-  it 'closeWidget is unbinding the controller', ->
-    setupOneContainer()
-    controller = newController(container)
-    spy = spyOn(controller, 'unbind')
-    controller.closeWidget()
-    expect(spy).toHaveBeenCalled()
+  describe '#closeWidget', ->
+    it 'unbinds the controller', ->
+      setupOneContainer()
+      controller = newController(container)
+      spy = spyOn(controller, 'unbind')
+      controller.closeWidget()
+      expect(spy).toHaveBeenCalled()
 
-  it 'closeWidget is setting the widget as inactive', ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    controller.closeWidget()
-    expect(controller.isActive()).toBe(false)
+    it 'sets the widget as inactive', ->
+      setupOneContainer()
+      controller = newController(container)
+      controller.initialize()
+      controller.closeWidget()
+      expect(controller.isActive()).toBe(false)
 
-  it "exitEditMode is hiding the form", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    controller.exitEditMode()
-    expect($("#{container} [data-id=twitter-form]").attr('style')).toEqual('display: none;')
-
-  it "enterEditMode is showing the form", ->
-    setupOneContainer()
-    controller = newController(container)
-    controller.initialize()
-    controller.exitEditMode()
-    controller.enterEditMode()
-    expect($("#{container} [data-id=twitter-form]").attr('style')).not.toEqual('display: none;')
 
   it "removeContent is removing the widget's content", ->
     setupOneContainer()

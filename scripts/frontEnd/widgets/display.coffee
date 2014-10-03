@@ -10,27 +10,7 @@ class Twitter.Widgets.Display
     $(@container).append(widgetHtml)
 
   getInput: ->
-    $("#{@container} [name=twitter-search]").val()
-
-  exitEditMode: ->
-    @hideForm()
-    @hideCloseWidget()
-
-  hideForm: ->
-    $("#{@container} [data-id=twitter-form]").hide(@animationSpeed)
-
-  hideCloseWidget: ->
-    $("#{@container} [data-id=twitter-close]").hide(@animationSpeed)
-
-  enterEditMode: ->
-    @showForm()
-    @showCloseWidget()
-
-  showForm: ->
-    $("#{@container} [data-id=twitter-form]").show(@animationSpeed)
-
-  showCloseWidget: ->
-    $("#{@container} [data-id=twitter-close]").show(@animationSpeed)
+    $("#{@container} [name=widget-input]").val()
 
   removeWidget: ->
     $(@container).remove()
@@ -38,13 +18,13 @@ class Twitter.Widgets.Display
   showTweets: (twitterResponse) ->
     formatedResponse = @formatResponse(twitterResponse)
     twitterHtml = @generateHtml(formatedResponse)
-    $("#{@container} [data-id=twitter-output]").html(twitterHtml)
+    $("#{@container} [data-name=widget-output]").html(twitterHtml)
 
   formatResponse: (twitterResponse) ->
     formatedResponse = []
-    _.forEach(twitterResponse, (tweet) =>
+    _.forEach twitterResponse, (tweet) =>
       formatedResponse.push @formatTweet(tweet)
-    )
+
     formatedResponse
 
   formatTweet: (tweet) ->

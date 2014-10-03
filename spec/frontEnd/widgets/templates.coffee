@@ -33,9 +33,9 @@ describe "Twitter.Widgets.Templates", ->
     setSandbox()
     form = Twitter.Widgets.Templates.renderForm()
     appendToSandbox(form)
-    assertSandboxContainsElement('[name=twitter-search]')
-    assertSandboxContainsElement('[data-id=twitter-button]')
-    assertSandboxContainsElement('[data-id=twitter-output]')
+    assertSandboxContainsElement('[name=widget-input]')
+    assertSandboxContainsElement('[data-name=form-button]')
+    assertSandboxContainsElement('[data-name=widget-output]')
 
   it "renderTweets has tweets' text in the rendered html", ->
     setSandbox()

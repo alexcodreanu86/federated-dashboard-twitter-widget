@@ -29,13 +29,11 @@ class Twitter.Widgets.Controller
   isActive: ->
     @activeStatus
 
-
-  getContainer: ->
-    @container
-
   bind: ->
-    $("#{@container} [data-id=twitter-button]").click(=> @processClickedButton())
-    $("#{@container} [data-id=twitter-close]").click(=> @closeWidget())
+    $("#{@container} [data-name=widget-form]").on 'submit',(e) =>
+      e.preventDefault()
+      @processClickedButton()
+    $("#{@container} [data-name=widget-close]").click => @closeWidget()
 
   processClickedButton: ->
     input = @display.getInput()
@@ -64,12 +62,5 @@ class Twitter.Widgets.Controller
     @display.removeWidget()
 
   unbind: ->
-    $("#{@container} [data-id=stock-button]").unbind('click')
-    $("#{@container} [data-id=stock-close]").unbind('click')
-
-  exitEditMode: ->
-    @display.exitEditMode()
-
-  enterEditMode: ->
-    @display.enterEditMode()
-
+    $("#{@container} [data-name=widget-form]").unbind('submit')
+    $("#{@container} [data-name=widget-close]").unbind('click')
